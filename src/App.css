@@ -2,6 +2,12 @@
   padding: 20px;
   text-align: center;
 }
-.app-heather {
+.app-header {
   font-size: xx-large;
+}
+
+.loading-icon, .sr-only {
+	position: absolute;
+	top: 45%;
+	left: 50%;
 }
