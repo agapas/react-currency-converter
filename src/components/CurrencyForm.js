@@ -57,7 +57,10 @@ export class CurrencyForm extends React.Component {
             .sort((a, b) => a[0].localeCompare(b[0]))
             .map((entry) => {
               const [key, value] = entry;
-              return <div key={key}>{`${key}: ${value}`}</div>
+              return <div key={key} className="currency">
+                <div className={`currency-flag currency-flag-${key.toLowerCase()}`}></div>
+                <div className="currency-code">{`${key}: ${value}`}</div>
+              </div>
             })
           }
         </div>

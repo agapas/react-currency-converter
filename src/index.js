@@ -5,6 +5,7 @@ import * as serviceWorker from 'serviceWorker';
 
 import 'index.css';
 import "../node_modules/font-awesome/css/font-awesome.css";
+import "../node_modules/currency-flags/dist/currency-flags.css";
 
 ReactDOM.render(
   <React.StrictMode>

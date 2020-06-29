@@ -32,6 +32,7 @@
     ]
   },
   "devDependencies": {
+    "currency-flags": "^2.1.2",
     "font-awesome": "^4.7.0"
   }
 }
