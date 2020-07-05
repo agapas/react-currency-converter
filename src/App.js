@@ -2,7 +2,7 @@ import React from "react";
 import "App.css";
 import { CurrencyForm } from "components/CurrencyForm";
 
-const API_URL = "https://api.exchangeratesapi.io/latest";
+export const API_URL = "https://api.exchangeratesapi.io/latest";
 
 function App() {
   return (
