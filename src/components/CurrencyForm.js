@@ -1,96 +1,47 @@
 import React from "react";
-import { Error } from "./Error";
-import { LoadingIcon } from "./LoadingIcon";
-
-const mockData = {
-  "rates": {
-    "CAD": 1.5233,
-    "HKD": 8.6987,
-    "ISK": 156.3,
-    "PHP": 55.536,
-    "DKK": 7.4516,
-    "HUF": 352.55,
-    "CZK": 26.665,
-    "AUD": 1.6175,
-    "RON": 4.837,
-    "SEK": 10.4715,
-    "IDR": 16286.02,
-    "INR": 83.821,
-    "BRL": 6.0117,
-    "RUB": 80.2153,
-    "HRK": 7.557,
-    "JPY": 120.68,
-    "THB": 34.918,
-    "CHF": 1.0623,
-    "SGD": 1.5654,
-    "PLN": 4.4687,
-    "BGN": 1.9558,
-    "TRY": 7.6957,
-    "CNY": 7.931,
-    "NOK": 10.6775,
-    "NZD": 1.7204,
-    "ZAR": 19.1761,
-    "USD": 1.1224,
-    "MXN": 25.3049,
-    "ILS": 3.8567,
-    "GBP": 0.9012,
-    "KRW": 1346.54,
-    "MYR": 4.8123
-  },
-  "base": "EUR",
-  "date": "2020-07-03"
-};
 
 export class CurrencyForm extends React.Component {
   static displayName = "CurrencyForm";
   state = {
-    data: undefined,
-    error: undefined,
-    loading: false,
+    amount: 1,
+    from: undefined,
+    to: undefined,
+    value: undefined,
+    // error: undefined,
   };
-  
-  componentDidMount() {
-    this.setState({ data: mockData });
-    //   this.loadData();
+
+  onSubmit = (event) => {
+    event.preventDefault();
+    console.log("submitted: ", this.state.value);
   }
 
-  loadData = () => {
-    const { url } = this.props;
-    this.setState({ loading: true });
-    fetch(url)
-      .then(res => res.json())
-      .then(
-        (data) => {
-          this.setState({
-            loading: false,
-            data,
-          });
-        },
-        (error) => {
-          this.setState({
-            loading: false,
-            error,
-          });
-        }
-      );
+  onChangeAmount = (event) => {
+    console.log("onChangeAmount: ", event.target.value);
+    // const newAmount = event.target.value;
+    // if (newAmount && !Number(newAmount)) {
+    //   this.setState({ error: <strong>The amount must be a number</strong> });
+    // }
+    this.setState({ amount: event.target.value });
+  }
+
+  onChangeFrom = (event) => {
+    console.log("onChangeFrom: ", event.target.value);
+    this.setState({ from: event.target.value });
+  }
+
+  onChangeTo = (event) => {
+    console.log("onChangeTo: ", event.target.value);
+    this.setState({ to: event.target.value });
   }
   
   render() {
-    const { error, loading, data } = this.state;
+    const { amount, from, to } = this.state;
+    const { date, rates, base } = this.props;
 
-    if (error) {
-      return <Error message={error.message} />;
-    }
-
-    if (loading) {
-      return <LoadingIcon />;
-    }
-
-    const { date, rates, base } = data || {};
-
-    if (!rates) {
-      return (<Error message="There is no results to display. Please try again later." />);
-    }
+    const currencyOptions = Object.keys(rates).sort((a, b) => a[0].localeCompare(b[0]));
+    
+    // console.log({ entries: Object.entries(rates).sort((a, b) => a[0].localeCompare(b[0])) });
+    const sortedRates = Object.entries(rates).sort((a, b) => a[0].localeCompare(b[0]));
 
     return (
       <>
@@ -100,17 +51,43 @@ export class CurrencyForm extends React.Component {
           <div className="currency-code">{`${base}: 1.0000`}</div>
         </div>
         <div>{
-          Object.entries(rates)
-            .sort((a, b) => a[0].localeCompare(b[0]))
-            .map((entry) => {
-              const [key, value] = entry;
+          sortedRates.map((entry) => {
+              const [key, val] = entry;
               return <div key={key} className="currency">
                 <div className={`currency-flag currency-flag-${key.toLowerCase()}`}></div>
-                <div className="currency-code">{`${key}: ${value}`}</div>
+                <div className="currency-code">{`${key}: ${val}`}</div>
               </div>
             })
           }
         </div>
+
+        <form onSubmit={this.onSubmit}>
+          <label>
+            Amount:
+            <input type="text" value={amount} onChange={this.onChangeAmount} />
+          </label>
+          <label>
+            From:
+            <select value={from} onChange={this.onChangeFrom}>
+              {currencyOptions.map((entry) =>
+                <option key={entry} className="currency" value={entry}>
+                  {entry}
+                </option>)
+              }
+            </select>
+          </label>
+          <label>
+            To:
+            <select value={to} onChange={this.onChangeTo}>
+              {currencyOptions.map((entry) =>
+                <option key={entry} className="currency" value={entry}>
+                  {entry}
+                </option>)
+              }
+            </select>
+          </label>
+          <input type="submit" value="Submit" />
+        </form>
       </>
     );
   }

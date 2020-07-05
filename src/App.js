@@ -1,6 +1,6 @@
 import React from "react";
 import "App.css";
-import { CurrencyForm } from "components/CurrencyForm";
+import { DataController } from "components/DataController";
 
 export const API_URL = "https://api.exchangeratesapi.io/latest";
 
@@ -10,7 +10,7 @@ function App() {
       <header className="app-header">
         Currency converter
       </header>
-      <CurrencyForm url={API_URL} />
+      <DataController url={API_URL} />
     </div>
   );
 }
