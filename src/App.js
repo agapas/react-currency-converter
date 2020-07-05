@@ -1,6 +1,6 @@
-import React from 'react';
-import 'App.css';
-import { CurrencyForm } from './components/CurrencyForm';
+import React from "react";
+import "App.css";
+import { CurrencyForm } from "components/CurrencyForm";
 
 const API_URL = "https://api.exchangeratesapi.io/latest";
 
