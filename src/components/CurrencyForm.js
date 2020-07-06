@@ -1,4 +1,6 @@
 import React from "react";
+import { Amount } from "./Amount";
+import { CurrencySelector } from "./CurrencySelector";
 
 export class CurrencyForm extends React.Component {
   static displayName = "CurrencyForm";
@@ -43,6 +45,8 @@ export class CurrencyForm extends React.Component {
     // console.log({ entries: Object.entries(rates).sort((a, b) => a[0].localeCompare(b[0])) });
     const sortedRates = Object.entries(rates).sort((a, b) => a[0].localeCompare(b[0]));
 
+    const amountErrorClass = !!amount ? "" : "has-error" ;
+
     return (
       <>
         <p>{date}</p>
@@ -62,33 +66,26 @@ export class CurrencyForm extends React.Component {
         </div>
 
         <form onSubmit={this.onSubmit}>
-          <label>
-            Amount:
-            <input type="text" value={amount} onChange={this.onChangeAmount} />
-          </label>
-          <label>
-            From:
-            <select value={from} onChange={this.onChangeFrom}>
-              {currencyOptions.map((entry) =>
-                <option key={entry} className="currency" value={entry}>
-                  {entry}
-                </option>)
-              }
-            </select>
-          </label>
-          <label>
-            To:
-            <select value={to} onChange={this.onChangeTo}>
-              {currencyOptions.map((entry) =>
-                <option key={entry} className="currency" value={entry}>
-                  {entry}
-                </option>)
-              }
-            </select>
-          </label>
+          <Amount className={amountErrorClass} value={amount} onChange={this.onChangeAmount} />
+          <CurrencySelector
+            label="From"
+            options={currencyOptions}
+            value={from}
+            onChange={this.onChangeFrom}
+          />
+          <CurrencySelector
+            label="To"
+            options={currencyOptions}
+            value={to}
+            onChange={this.onChangeTo}
+          />
           <input type="submit" value="Submit" />
         </form>
       </>
     );
   }
 }
+
+// TODO:
+// - add function for massage data for currencyOptions
+// - add form validation

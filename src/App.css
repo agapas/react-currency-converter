@@ -21,3 +21,27 @@
   padding: 20px;
   font-size: 20px;
 }
+
+.has-error {
+  border: 1px solid red;
+}
+
+input, select {
+  outline: none;
+  border-width: 1px;
+  width: 180px;
+  padding: 6px 12px;
+}
+
+input {
+  height: 26px;
+}
+
+select {
+  height: 40px;
+}
+
+input[type="submit"] {
+  width: 100px;
+  height: 26px;
+}
