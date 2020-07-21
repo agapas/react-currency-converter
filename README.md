@@ -5,6 +5,11 @@ The app is made with React, in a Functional Programming like approach and the un
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+Used packages:
+- [currency-flags](https://github.com/transferwise/currency-flags)
+- [font-awesome](https://github.com/FortAwesome/Font-Awesome)
+- [react-select](https://github.com/JedWatson/react-select)
+
 
 ## Running the project
 
