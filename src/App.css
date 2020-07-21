@@ -15,7 +15,7 @@
   align-items: center;
 }
 .currency-flag {
-  margin: 0 10px;
+  margin: 0 6px;
 }
 .error {
   padding: 20px;
@@ -26,7 +26,11 @@
   border: 1px solid red;
 }
 
-input, select {
+.react-select-container {
+  width: 200px;
+}
+
+input {
   outline: none;
   border-width: 1px;
   width: 180px;
@@ -35,10 +39,6 @@ input, select {
 
 input {
   height: 26px;
-}
-
-select {
-  height: 40px;
 }
 
 input[type="submit"] {

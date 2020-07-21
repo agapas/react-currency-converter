@@ -2,6 +2,13 @@ import React from "react";
 import { Amount } from "./Amount";
 import { CurrencySelector } from "./CurrencySelector";
 
+const getSorted = (arrayToSort) => arrayToSort.sort((a, b) => a[0].localeCompare(b[0]));
+
+const getCurrencyOptions = (rates) => {
+  const sorted = getSorted(Object.keys(rates));
+  return sorted.map(s => ({ label: s, value: s.toLowerCase() }));
+};
+
 export class CurrencyForm extends React.Component {
   static displayName = "CurrencyForm";
   state = {
@@ -38,32 +45,16 @@ export class CurrencyForm extends React.Component {
   
   render() {
     const { amount, from, to } = this.state;
-    const { date, rates, base } = this.props;
-
-    const currencyOptions = Object.keys(rates).sort((a, b) => a[0].localeCompare(b[0]));
+    const { date, rates /*, base */ } = this.props;
     
-    // console.log({ entries: Object.entries(rates).sort((a, b) => a[0].localeCompare(b[0])) });
-    const sortedRates = Object.entries(rates).sort((a, b) => a[0].localeCompare(b[0]));
+    // const sortedRates = getSorted(Object.entries(rates));
+    const currencyOptions = getCurrencyOptions(rates);
 
     const amountErrorClass = !!amount ? "" : "has-error" ;
 
     return (
       <>
         <p>{date}</p>
-        <div key={base} className="currency">
-          <div className={`currency-flag currency-flag-${base.toLowerCase()}`}></div>
-          <div className="currency-code">{`${base}: 1.0000`}</div>
-        </div>
-        <div>{
-          sortedRates.map((entry) => {
-              const [key, val] = entry;
-              return <div key={key} className="currency">
-                <div className={`currency-flag currency-flag-${key.toLowerCase()}`}></div>
-                <div className="currency-code">{`${key}: ${val}`}</div>
-              </div>
-            })
-          }
-        </div>
 
         <form onSubmit={this.onSubmit}>
           <Amount className={amountErrorClass} value={amount} onChange={this.onChangeAmount} />
@@ -81,11 +72,23 @@ export class CurrencyForm extends React.Component {
           />
           <input type="submit" value="Submit" />
         </form>
+
+        {/* just temporary to see entire data */}
+        {/* <div key={base} className="currency">
+          <div className={`currency-flag currency-flag-${base.toLowerCase()}`}></div>
+          <div className="currency-code">{`${base}: 1.0000`}</div>
+        </div>
+        <div>{
+          sortedRates.map((entry) => {
+              const [key, val] = entry;
+              return <div key={key} className="currency">
+                <div className={`currency-flag currency-flag-${key.toLowerCase()}`}></div>
+                <div className="currency-code">{`${key}: ${val}`}</div>
+              </div>
+            })
+          }
+        </div> */}
       </>
     );
   }
 }
-
-// TODO:
-// - add function for massage data for currencyOptions
-// - add form validation
