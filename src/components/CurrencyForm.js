@@ -45,19 +45,17 @@ export class CurrencyForm extends React.Component {
   
   render() {
     const { amount, from, to } = this.state;
-    const { date, rates /*, base */ } = this.props;
+    const { rates /*, base */ } = this.props;
     
     // const sortedRates = getSorted(Object.entries(rates));
     const currencyOptions = getCurrencyOptions(rates);
 
-    const amountErrorClass = !!amount ? "" : "has-error" ;
+    const errorClass = !!amount ? "" : "has-error" ;
 
     return (
       <>
-        <p>{date}</p>
-
         <form onSubmit={this.onSubmit}>
-          <Amount className={amountErrorClass} value={amount} onChange={this.onChangeAmount} />
+          <Amount className={errorClass} value={amount} onChange={this.onChangeAmount} />
           <CurrencySelector
             label="From"
             options={currencyOptions}

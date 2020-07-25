@@ -1,47 +1,88 @@
+html, body {
+  height: 100%
+}
+
+#root {
+  height: 80%;
+  padding: 10%;
+}
+
 .app {
-  padding: 20px;
+  padding: 5%;
   text-align: center;
 }
+
 .app-header {
   font-size: xx-large;
 }
+
 .loading-icon, .sr-only {
 	position: absolute;
 	top: 45%;
 	left: 50%;
 }
-.currency {
-  display: flex;
-  align-items: center;
-}
-.currency-flag {
-  margin: 0 6px;
-}
+
 .error {
   padding: 20px;
   font-size: 20px;
 }
 
-.has-error {
-  border: 1px solid red;
+.currency {
+  display: flex;
+  align-items: center;
+}
+
+.currency-flag {
+  margin: 0 6px;
+  border: 1px solid #cccccc;
+}
+
+form {
+  margin: 0 auto;
+  width: fit-content;
+}
+
+label {
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.label {
+  margin-bottom: 6px;
 }
 
 .react-select-container {
-  width: 200px;
+  width: 280px;
 }
 
 input {
   outline: none;
-  border-width: 1px;
-  width: 180px;
+  border: 1px solid #cccccc;
+  border-radius: 2px;
+}
+
+input[type="text"] {
+  width: 254px;
+  height: 26px;
   padding: 6px 12px;
 }
 
-input {
-  height: 26px;
+input[type="submit"] {
+  width: 130px;
+  height: 35px;
+  margin: 20px auto;
+  padding: 6px 12px;
+  font-family: inherit;
+  font-size: medium;
 }
 
-input[type="submit"] {
-  width: 100px;
-  height: 26px;
+input:focus {
+  border: 2px solid grey;
+  border-radius: 4px;
+}
+
+input.has-error {
+  border-color: red;
 }

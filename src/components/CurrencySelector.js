@@ -46,7 +46,7 @@ export class CurrencySelector extends React.Component {
 
     return (
       <label>
-        {`${label}:`}
+        <div className="label">{`${label}:`}</div>
         <Select
           className="react-select-container"
           isClearable={true}
@@ -57,6 +57,16 @@ export class CurrencySelector extends React.Component {
             Option: SelectIconOption,
             SingleValue: SelectValueOption,
           }}
+          theme={theme => ({
+            ...theme,
+            borderRadius: 2,
+            colors: {
+              ...theme.colors,
+              primary50: 'lightgrey',
+              primary25: 'lightgrey',
+              primary: 'grey',
+            },
+          })}
         />
       </label>
     );

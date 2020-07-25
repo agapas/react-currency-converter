@@ -3,7 +3,7 @@ import React from "react";
 export const Amount = ({ className, value = 1, onChange }) => {
   return (
     <label>
-      Amount:
+      <div className="label">Amount:</div>
       <input
         className={`amount-input ${className}`}
         type="text"
