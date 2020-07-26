@@ -5,8 +5,9 @@ import { CurrencySwitcher } from "./CurrencySwitcher";
 
 const getSorted = (arrayToSort) => arrayToSort.sort((a, b) => a[0].localeCompare(b[0]));
 
-const getCurrencyOptions = (rates) => {
-  const sorted = getSorted(Object.keys(rates));
+const getCurrencyOptions = (base, rates) => {
+  const ratesWithBase = Object.keys(rates).concat(base);
+  const sorted = getSorted(ratesWithBase);
   return sorted.map(s => ({ label: s, value: s.toLowerCase() }));
 };
 
@@ -46,10 +47,10 @@ export class CurrencyForm extends React.Component {
   
   render() {
     const { amount, from, to } = this.state;
-    const { rates /*, base */ } = this.props;
+    const { rates, base } = this.props;
     
     // const sortedRates = getSorted(Object.entries(rates));
-    const currencyOptions = getCurrencyOptions(rates);
+    const currencyOptions = getCurrencyOptions(base, rates);
 
     const errorClass = !!amount ? "" : "has-error" ;
 
