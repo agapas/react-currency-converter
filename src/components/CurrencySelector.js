@@ -62,9 +62,13 @@ export class CurrencySelector extends React.Component {
             borderRadius: 2,
             colors: {
               ...theme.colors,
-              primary50: 'lightgrey',
-              primary25: 'lightgrey',
-              primary: 'grey',
+              primary50: 'gold',
+              primary25: 'gold',
+              primary: 'gold',
+              neutral60: 'black',
+              neutral40: 'darkslategray',
+              neutral30: 'darkslategray',
+              neutral20: 'darkslategray',
             },
           })}
         />

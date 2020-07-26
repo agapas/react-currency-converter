@@ -1,6 +1,7 @@
 import React from "react";
 import { Amount } from "./Amount";
 import { CurrencySelector } from "./CurrencySelector";
+import { CurrencySwitcher } from "./CurrencySwitcher";
 
 const getSorted = (arrayToSort) => arrayToSort.sort((a, b) => a[0].localeCompare(b[0]));
 
@@ -62,6 +63,7 @@ export class CurrencyForm extends React.Component {
             value={from}
             onChange={this.onChangeFrom}
           />
+          <CurrencySwitcher />
           <CurrencySelector
             label="To"
             options={currencyOptions}

@@ -1,19 +1,22 @@
-html, body {
-  height: 100%
+html, body, #root, .app {
+  height: 100%;
 }
 
-#root {
-  height: 80%;
-  padding: 10%;
+html {
+  background-color: #ffd70033;
 }
 
 .app {
-  padding: 5%;
   text-align: center;
+  /* background-color: #ffd70033; */
+  color: darkslategray;
 }
 
 .app-header {
-  font-size: xx-large;
+  font-size: 40px;
+  font-weight: 600;
+  padding: 100px 10px 50px;
+  color: darkslateblue;
 }
 
 .loading-icon, .sr-only {
@@ -27,6 +30,25 @@ html, body {
   font-size: 20px;
 }
 
+form {
+  margin: 0 auto;
+  padding: 48px;
+  width: fit-content;
+  background-color: darkslateblue;
+}
+
+label {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.label {
+  margin-bottom: 6px;
+  color: white;
+}
+
 .currency {
   display: flex;
   align-items: center;
@@ -37,30 +59,15 @@ html, body {
   border: 1px solid #cccccc;
 }
 
-form {
-  margin: 0 auto;
-  width: fit-content;
-}
-
-label {
-  margin: 20px;
-  display: flex;
-  flex-direction: column;
-  text-align: left;
-}
-
-.label {
-  margin-bottom: 6px;
-}
-
 .react-select-container {
   width: 280px;
 }
 
 input {
   outline: none;
-  border: 1px solid #cccccc;
+  border: 1px solid darkslategray;
   border-radius: 2px;
+  font-size: 15px;
 }
 
 input[type="text"] {
@@ -75,14 +82,44 @@ input[type="submit"] {
   margin: 20px auto;
   padding: 6px 12px;
   font-family: inherit;
-  font-size: medium;
+}
+
+.switch-currency {
+  color: darkslategray;
+  font-size: large;
+  padding: 5px 8px;
+  border: 1px solid darkslategray;
+  border-radius: 2px;
+  margin-top: 20px;
+}
+
+input:hover, .switch-currency:hover {
+  border-color: black;
+}
+
+.switch-currency:focus {
+  border: 2px solid gold;
+  border-radius: 4px;
+  outline: none;
+  padding: 4px 8px;
 }
 
 input:focus {
-  border: 2px solid grey;
+  border: 2px solid gold;
   border-radius: 4px;
+  padding: 5px 10px;
 }
 
 input.has-error {
   border-color: red;
+}
+
+@media only screen and (max-width: 600px) {
+  .app-header {
+    padding: 25px;
+    font-size: xx-large;
+  }
+  form {
+    padding: 20px;
+  }
 }

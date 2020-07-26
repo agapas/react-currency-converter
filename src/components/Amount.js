@@ -7,6 +7,7 @@ export const Amount = ({ className, value = 1, onChange }) => {
       <input
         className={`amount-input ${className}`}
         type="text"
+        placeholder="Set Amount"
         value={value}
         onChange={onChange}
       />
