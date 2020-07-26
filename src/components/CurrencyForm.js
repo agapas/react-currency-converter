@@ -35,14 +35,20 @@ export class CurrencyForm extends React.Component {
     this.setState({ amount: event.target.value });
   }
 
-  onChangeFrom = (event) => {
-    console.log("onChangeFrom: ", event.target.value);
-    this.setState({ from: event.target.value });
+  onChangeFrom = (val) => {
+    console.log("onChangeFrom: ", val);
+    this.setState({ from: val });
   }
 
-  onChangeTo = (event) => {
-    console.log("onChangeTo: ", event.target.value);
-    this.setState({ to: event.target.value });
+  onChangeTo = (val) => {
+    console.log("onChangeTo: ", val);
+    this.setState({ to: val });
+  }
+
+  onSwitch = () => {
+    console.log("onSwitch");
+    const { from, to } = this.props;
+    this.setState({ from: to, to: from });
   }
   
   render() {
@@ -64,14 +70,19 @@ export class CurrencyForm extends React.Component {
             value={from}
             onChange={this.onChangeFrom}
           />
-          <CurrencySwitcher />
+          <CurrencySwitcher value={{ from, to }} onChange={this.onSwitch} />
           <CurrencySelector
             label="To"
             options={currencyOptions}
             value={to}
             onChange={this.onChangeTo}
           />
-          <input type="submit" value="Submit" />
+          <input className="button" type="submit" value="Submit" />
+
+          <label>
+            <div className="label">Result:</div>
+            <input className="result" type="text" value={this.state.value} onChange={undefined} disabled />
+          </label>
         </form>
 
         {/* just temporary to see entire data */}

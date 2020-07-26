@@ -1,22 +1,31 @@
+html {
+  /* colors */
+  --primary: darkslateblue;
+  --secondary: darkslategray;
+  --background: #ffd70033;
+  --border: black;
+  --light-border: #cccccc;
+  --selected: gold;
+  --error: red;
+}
+
 html, body, #root, .app {
   height: 100%;
 }
 
-html {
-  background-color: #ffd70033;
+body {
+  background-color: var(--background);
 }
 
 .app {
   text-align: center;
-  /* background-color: #ffd70033; */
-  color: darkslategray;
 }
 
 .app-header {
   font-size: 40px;
   font-weight: 600;
   padding: 100px 10px 50px;
-  color: darkslateblue;
+  color: var(--primary);
 }
 
 .loading-icon, .sr-only {
@@ -34,7 +43,7 @@ form {
   margin: 0 auto;
   padding: 48px;
   width: fit-content;
-  background-color: darkslateblue;
+  background-color: var(--primary);
 }
 
 label {
@@ -56,7 +65,7 @@ label {
 
 .currency-flag {
   margin: 0 6px;
-  border: 1px solid #cccccc;
+  border: 1px solid var(--light-border);
 }
 
 .react-select-container {
@@ -64,9 +73,6 @@ label {
 }
 
 input {
-  outline: none;
-  border: 1px solid darkslategray;
-  border-radius: 2px;
   font-size: 15px;
 }
 
@@ -74,6 +80,24 @@ input[type="text"] {
   width: 254px;
   height: 26px;
   padding: 6px 12px;
+  outline: none;
+  border: 1px solid var(--secondary);
+  border-radius: 2px;
+}
+
+input[type="text"]:hover {
+  border-color: var(--border);
+}
+
+input[type="text"]:focus {
+  border: 2px solid var(--selected);
+  border-radius: 4px;
+  padding: 5px 10px;
+}
+
+.result {
+  background-color: white;
+  color: black;
 }
 
 input[type="submit"] {
@@ -85,33 +109,25 @@ input[type="submit"] {
 }
 
 .switch-currency {
-  color: darkslategray;
   font-size: large;
   padding: 5px 8px;
-  border: 1px solid darkslategray;
-  border-radius: 2px;
   margin-top: 20px;
 }
 
-input:hover, .switch-currency:hover {
-  border-color: black;
-}
-
-.switch-currency:focus {
-  border: 2px solid gold;
+.button {
+  background-color: gold;
+  color: var(--primary);
+  border: 2px solid var(--border);
   border-radius: 4px;
   outline: none;
-  padding: 4px 8px;
 }
 
-input:focus {
-  border: 2px solid gold;
-  border-radius: 4px;
-  padding: 5px 10px;
+.button:hover {
+  background-color: #FFC107;
 }
 
 input.has-error {
-  border-color: red;
+  border-color: var(--error);
 }
 
 @media only screen and (max-width: 600px) {
