@@ -2,16 +2,15 @@ import React from "react";
 
 export const Amount = ({ className, error, value, onChange }) => {
   return (
-    <label>
+    <label className={className}>
       <div className="label">Amount:</div>
       <input
-        className={`amount-input ${className}`}
         type="text"
         placeholder="Set Amount"
         value={value}
         onChange={onChange}
       />
-      <div className="error">{error}</div>
+      <div className="error-hint">{error}</div>
     </label>
   );
 };

@@ -53,9 +53,11 @@ export class CurrencyForm extends React.Component {
     this.setState({ to: val });
   }
 
-  onSwitch = () => {
+  // TODO: make it fully work (changing state here don't change values of both selectors)
+  onSwitch = (e) => {
+    e.preventDefault();
     console.log("onSwitch");
-    const { from, to } = this.props;
+    const { from, to } = this.state;
     this.setState({ from: to, to: from });
   }
   

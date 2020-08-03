@@ -35,10 +35,15 @@ body {
 	left: 50%;
 }
 
-.error {
-  font-size: medium;
+.error, .error-hint {
   font-weight:600;
   color: var(--error);
+  font-size: 15px;
+}
+
+.error {
+  padding: 20px;
+  font-size: 20px;
 }
 
 form {
@@ -58,6 +63,10 @@ label {
 .label {
   margin-bottom: 6px;
   color: white;
+}
+
+label.has-error {
+  margin-bottom: 0;
 }
 
 .currency {
@@ -132,7 +141,7 @@ input[type="submit"] {
   background-color: #FFC107;
 }
 
-input[type="text"].has-error {
+label.has-error input[type="text"] {
   border-color: var(--error);
 }
 

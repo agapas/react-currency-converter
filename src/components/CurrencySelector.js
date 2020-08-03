@@ -37,10 +37,8 @@ export class CurrencySelector extends React.Component {
   };
   handleChange = selectedOption => {
     this.props.onChange(selectedOption);
-    this.setState(
-      { selectedOption },
-      () => console.log(`Option selected:`, this.state.selectedOption)
-    );
+    console.log(`Option selected:`, { stateSelectedOption: this.state.selectedOption, selectedOption });
+    this.setState({ selectedOption });
   };
   render() {
     const { selectedOption } = this.state;
