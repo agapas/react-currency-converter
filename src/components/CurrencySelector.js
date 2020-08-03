@@ -37,12 +37,11 @@ export class CurrencySelector extends React.Component {
   };
   handleChange = selectedOption => {
     this.props.onChange(selectedOption);
-    console.log(`Option selected:`, { stateSelectedOption: this.state.selectedOption, selectedOption });
     this.setState({ selectedOption });
   };
   render() {
     const { selectedOption } = this.state;
-    const { label, options = [] } = this.props;
+    const { label, options = [], value } = this.props;
 
     return (
       <label>
@@ -50,7 +49,7 @@ export class CurrencySelector extends React.Component {
         <Select
           className="react-select-container"
           isClearable={true}
-          value={selectedOption}
+          value={value || selectedOption}
           onChange={this.handleChange}
           options={options}
           components={{
