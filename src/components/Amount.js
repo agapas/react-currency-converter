@@ -1,6 +1,6 @@
 import React from "react";
 
-export const Amount = ({ className, value = 1, onChange }) => {
+export const Amount = ({ className, error, value, onChange }) => {
   return (
     <label>
       <div className="label">Amount:</div>
@@ -11,6 +11,7 @@ export const Amount = ({ className, value = 1, onChange }) => {
         value={value}
         onChange={onChange}
       />
+      <div className="error">{error}</div>
     </label>
   );
 };

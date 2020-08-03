@@ -1,12 +1,13 @@
 html {
   /* colors */
-  --primary: darkslateblue;
+  --primary: #362d6b;
   --secondary: darkslategray;
-  --background: #ffd70033;
+  --background: #faf5c4;
   --border: black;
   --light-border: #cccccc;
   --selected: gold;
   --error: red;
+  --font-color: black;
 }
 
 html, body, #root, .app {
@@ -24,7 +25,7 @@ body {
 .app-header {
   font-size: 40px;
   font-weight: 600;
-  padding: 100px 10px 50px;
+  padding: 100px 10px 30px;
   color: var(--primary);
 }
 
@@ -35,8 +36,9 @@ body {
 }
 
 .error {
-  padding: 20px;
-  font-size: 20px;
+  font-size: medium;
+  font-weight:600;
+  color: var(--error);
 }
 
 form {
@@ -96,27 +98,31 @@ input[type="text"]:focus {
 }
 
 .result {
-  background-color: white;
-  color: black;
+  margin-top: 30px;
+}
+
+.result input {
+  background-color: var(--background);
+  color: var(--font-color);
 }
 
 input[type="submit"] {
-  width: 130px;
-  height: 35px;
+  width: 100%;
+  height: 40px;
   margin: 20px auto;
-  padding: 6px 12px;
   font-family: inherit;
+  font-weight: 600;
 }
 
 .switch-currency {
-  font-size: large;
-  padding: 5px 8px;
-  margin-top: 20px;
+  margin-bottom: -8px;
 }
 
 .button {
+  padding: 5px 8px;
   background-color: gold;
-  color: var(--primary);
+  color: var(--font-color);
+  font-size: medium;
   border: 2px solid var(--border);
   border-radius: 4px;
   outline: none;
@@ -126,7 +132,7 @@ input[type="submit"] {
   background-color: #FFC107;
 }
 
-input.has-error {
+input[type="text"].has-error {
   border-color: var(--error);
 }
 

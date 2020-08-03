@@ -31,11 +31,12 @@ const SelectValueOption = (props) => (
 );
 
 export class CurrencySelector extends React.Component {
+  static displayName = "CurrencySelector";
   state = {
     selectedOption: null,
   };
   handleChange = selectedOption => {
-    this.props.onChange(selectedOption?.label);
+    this.props.onChange(selectedOption);
     this.setState(
       { selectedOption },
       () => console.log(`Option selected:`, this.state.selectedOption)

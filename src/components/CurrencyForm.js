@@ -11,6 +11,18 @@ const getCurrencyOptions = (base, rates) => {
   return sorted.map(s => ({ label: s, value: s.toLowerCase() }));
 };
 
+const isNumeric = (n) => !isNaN(parseFloat(n)) && isFinite(n);
+
+const getAmountError = (value) => {
+  return value
+    ? isNumeric(value)
+      ? value <= 0
+        ? "The amount must be bigger than 0"
+        : undefined
+      : "The amount must be a number"
+    : "The amount is required";
+};
+
 export class CurrencyForm extends React.Component {
   static displayName = "CurrencyForm";
   state = {
@@ -18,21 +30,17 @@ export class CurrencyForm extends React.Component {
     from: undefined,
     to: undefined,
     value: undefined,
-    // error: undefined,
+    error: undefined,
   };
 
-  onSubmit = (event) => {
-    event.preventDefault();
-    console.log("submitted: ", this.state.value);
+  onSubmit = (e) => {
+    e.preventDefault();
+    console.log("submitted: ", e.target.value);
   }
 
-  onChangeAmount = (event) => {
-    console.log("onChangeAmount: ", event.target.value);
-    // const newAmount = event.target.value;
-    // if (newAmount && !Number(newAmount)) {
-    //   this.setState({ error: <strong>The amount must be a number</strong> });
-    // }
-    this.setState({ amount: event.target.value });
+  onChangeAmount = (e) => {
+    const error = getAmountError(e.target.value);
+    this.setState({ amount: e.target.value, error });
   }
 
   onChangeFrom = (val) => {
@@ -52,18 +60,18 @@ export class CurrencyForm extends React.Component {
   }
   
   render() {
-    const { amount, from, to } = this.state;
+    const { amount, from, to, error } = this.state;
     const { rates, base } = this.props;
     
     // const sortedRates = getSorted(Object.entries(rates));
     const currencyOptions = getCurrencyOptions(base, rates);
 
-    const errorClass = !!amount ? "" : "has-error" ;
+    const errorClass = error ? "has-error" : "";
 
     return (
       <>
         <form onSubmit={this.onSubmit}>
-          <Amount className={errorClass} value={amount} onChange={this.onChangeAmount} />
+          <Amount className={errorClass} error={error} value={amount} onChange={this.onChangeAmount} />
           <CurrencySelector
             label="From"
             options={currencyOptions}
@@ -79,11 +87,12 @@ export class CurrencyForm extends React.Component {
           />
           <input className="button" type="submit" value="Submit" />
 
-          <label>
+          <label className="result">
             <div className="label">Result:</div>
-            <input className="result" type="text" value={this.state.value} onChange={undefined} disabled />
+            <input type="text" value={this.state.value || 0} onChange={undefined} disabled />
           </label>
         </form>
+
 
         {/* just temporary to see entire data */}
         {/* <div key={base} className="currency">
