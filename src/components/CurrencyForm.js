@@ -11,6 +11,14 @@ const getCurrencyOptions = (base, rates) => {
   return sorted.map(s => ({ label: s, value: s.toLowerCase() }));
 };
 
+const getCurrencyRate = (currency, base, rates) => currency === base ? 1 : rates[currency];
+
+const convertAmount = (amount, from, to, base, rates) => {
+  const fromRate = getCurrencyRate(from, base, rates);
+  const toRate = getCurrencyRate(to, base, rates);
+  return toRate * amount / fromRate;
+};
+
 const isNumeric = (n) => !isNaN(parseFloat(n)) && isFinite(n);
 
 const getAmountError = (value) => {
@@ -35,7 +43,10 @@ export class CurrencyForm extends React.Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    console.log("submitted: ", e.target.value);
+    const { base, rates } = this.props;
+    const { amount, from, to } = this.state;
+    const newValue = convertAmount(amount, from.label, to.label, base, rates);
+    this.setState({ value: newValue });
   }
 
   onChangeAmount = (e) => {
@@ -44,12 +55,10 @@ export class CurrencyForm extends React.Component {
   }
 
   onChangeFrom = (val) => {
-    console.log("onChangeFrom: ", val);
     this.setState({ from: val });
   }
 
   onChangeTo = (val) => {
-    console.log("onChangeTo: ", val);
     this.setState({ to: val });
   }
 
@@ -61,7 +70,7 @@ export class CurrencyForm extends React.Component {
   
   render() {
     const { amount, from, to, error } = this.state;
-    const { rates, base } = this.props;
+    const { base, rates } = this.props;
     
     // const sortedRates = getSorted(Object.entries(rates));
     const currencyOptions = getCurrencyOptions(base, rates);
