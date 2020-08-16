@@ -10,12 +10,19 @@ html {
   --font-color: black;
 }
 
-html, body, #root, .app {
-  height: 100%;
+* {
+  /* So 100% means 100% */
+  box-sizing: border-box;
 }
 
-body {
+html, body {
+  height: 100%;
   background-color: var(--background);
+  padding: 20px;
+}
+
+#root, .app {
+  height: 100%;
 }
 
 .app {
@@ -25,7 +32,17 @@ body {
 .app-header {
   font-size: 40px;
   font-weight: 600;
-  padding: 100px 10px 30px;
+  padding: 30px;
+  color: var(--primary);
+}
+
+.source {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  padding: 20px;
+  font-size: large;
+  font-weight: 600;
   color: var(--primary);
 }
 
@@ -49,7 +66,10 @@ body {
 form {
   margin: 0 auto;
   padding: 48px;
-  width: fit-content;
+  min-width: 240px;
+  max-width: 400px;
+  max-height: calc(100% - 113px - 64px); /*minus height of app-header and source*/
+  overflow: auto;
   background-color: var(--primary);
 }
 
@@ -80,7 +100,7 @@ label.has-error {
 }
 
 .react-select-container {
-  width: 280px;
+  width: 100%;
 }
 
 input {
@@ -88,12 +108,16 @@ input {
 }
 
 input[type="text"] {
-  width: 254px;
-  height: 26px;
+  width: 100%;
+  height: 40px;
   padding: 6px 12px;
   outline: none;
   border: 1px solid var(--secondary);
   border-radius: 2px;
+}
+
+.react-select-container input[type="text"] {
+  height: 26px;
 }
 
 input[type="text"]:hover {
@@ -141,16 +165,44 @@ input[type="submit"] {
   background-color: #FFC107;
 }
 
+.button:disabled {
+  cursor: not-allowed;
+  background-color: gold;
+  opacity: 0.75;
+}
+
 label.has-error input[type="text"] {
   border-color: var(--error);
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 1024px) {
   .app-header {
-    padding: 25px;
-    font-size: xx-large;
+    padding: 20px 0;
+    font-size: 26px;
+  }
+  form {
+    max-height: calc(100% - 140px);
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  html, body {
+    padding: 10px;
   }
   form {
     padding: 20px;
+    width: 100%;
+    max-height: calc(100% - 110px);
+  }
+  input[type="submit"] {
+    margin: 10px auto;
+  }
+  .result {
+    margin-top: 20px;
+  }
+  .source {
+    padding-bottom: 10px;
+    font-size: small;
+    text-align: left;
   }
 }

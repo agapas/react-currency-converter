@@ -52,7 +52,7 @@ export class DataController extends React.Component {
   
   componentDidMount() {
     this.setState({ data: mockData });
-    //   this.loadData();
+    // this.loadData();
   }
 
   loadData = () => {
@@ -77,6 +77,7 @@ export class DataController extends React.Component {
   }
   
   render() {
+    const { url } = this.props;
     const { error, loading, data } = this.state;
 
     if (error) {
@@ -91,6 +92,9 @@ export class DataController extends React.Component {
       return (<Error message="There is no results to display. Please try again later." />);
     }
 
-    return (<CurrencyForm {...data} />);
+    return (<>
+      <CurrencyForm {...data} />
+      <div className="source">{`Rates: ${url.split("/latest")[0]}, ${data.date}`}</div>
+    </>);
   }
 }
