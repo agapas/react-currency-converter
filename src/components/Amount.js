@@ -1,8 +1,9 @@
 import React from "react";
 
-export const Amount = ({ className, error, value, onChange }) => {
+export const Amount = ({ error, value, onChange }) => {
+  const errorClass = error ? "has-error" : "";
   return (
-    <label className={className}>
+    <label className={errorClass}>
       <div className="label">Amount to convert:</div>
       <input
         type="text"
@@ -10,7 +11,7 @@ export const Amount = ({ className, error, value, onChange }) => {
         value={value}
         onChange={onChange}
       />
-      <div className="error-hint">{error}</div>
+      {error && <div className="error-hint">{error}</div>}
     </label>
   );
 };

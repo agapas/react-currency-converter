@@ -1,7 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 import App, { API_URL } from "App";
-import { CurrencyForm } from "components/CurrencyForm";
+import { DataController } from "components/DataController";
 
 describe("App", () => {
   const comp = shallow(<App />);
@@ -17,9 +17,9 @@ describe("App", () => {
     expect(header.text()).toEqual("Currency converter");
   });
 
-  it ("should pass API_URL as a prop into CurrencyForm", () => {
-    const currencyForm = comp.find(CurrencyForm);
-    expect(currencyForm.exists()).toBe(true);
-    expect(currencyForm.prop("url")).toEqual(API_URL);
+  it ("should pass API_URL as a prop into DataController", () => {
+    const dataController = comp.find(DataController);
+    expect(dataController.exists()).toBe(true);
+    expect(dataController.prop("url")).toEqual(API_URL);
   });
 });
