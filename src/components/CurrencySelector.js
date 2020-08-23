@@ -21,13 +21,13 @@ export class CurrencySelector extends React.Component {
   state = {
     selectedOption: null,
   };
-  handleChange = selectedOption => {
+  handleChange = (selectedOption) => {
     this.props.onChange(selectedOption);
     this.setState({ selectedOption });
   };
   render() {
     const { selectedOption } = this.state;
-    const { label, options = [], value } = this.props;
+    const { label = "Currency", options = [], value } = this.props;
 
     return (
       <label>

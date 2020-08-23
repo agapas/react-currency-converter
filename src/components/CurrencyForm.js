@@ -6,7 +6,9 @@ import { Result } from "./Result";
 
 const getSorted = (arrayToSort) => arrayToSort.sort((a, b) => a[0].localeCompare(b[0]));
 
-const getCurrencyOptions = (base, rates) => {
+const getCurrencyOptions = (base, rates = {}) => {
+  if (!base) return [];
+
   const ratesWithBase = Object.keys(rates).concat(base);
   const sorted = getSorted(ratesWithBase);
   return sorted.map(s => ({ label: s, value: s.toLowerCase() }));
@@ -36,7 +38,7 @@ export class CurrencyForm extends React.Component {
   static displayName = "CurrencyForm";
   state = {
     amount: {
-      value: 1,
+      value: "1",
       error: undefined,
     },
     from: undefined,
@@ -80,27 +82,25 @@ export class CurrencyForm extends React.Component {
     const currencyOptions = getCurrencyOptions(base, rates);
 
     return (
-      <>
-        <form onSubmit={this.onSubmit}>
-          <Amount error={error} value={value} onChange={this.onChangeAmount} />
-          <CurrencySelector
-            label="From"
-            options={currencyOptions}
-            value={from}
-            onChange={this.onChangeFrom}
-          />
-          <CurrencySwitcher value={{ from, to }} onChange={this.onSwitch} />
-          <CurrencySelector
-            label="To"
-            options={currencyOptions}
-            value={to}
-            onChange={this.onChangeTo}
-          />
-          <input className="button" type="submit" value="Submit" />
+      <form onSubmit={this.onSubmit}>
+        <Amount error={error} value={value} onChange={this.onChangeAmount} />
+        <CurrencySelector
+          label="From"
+          options={currencyOptions}
+          value={from}
+          onChange={this.onChangeFrom}
+        />
+        <CurrencySwitcher value={{ from, to }} onChange={this.onSwitch} />
+        <CurrencySelector
+          label="To"
+          options={currencyOptions}
+          value={to}
+          onChange={this.onChangeTo}
+        />
+        <input className="button" type="submit" value="Submit" />
 
-          <Result value={this.state.value} onChange={undefined} />
-        </form>
-      </>
+        <Result value={this.state.value} onChange={undefined} />
+      </form>
     );
   }
 }

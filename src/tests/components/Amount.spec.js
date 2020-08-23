@@ -52,8 +52,9 @@ describe("Amount", () => {
     const mockOnChange = jest.fn();
     const comp = getComp({ onChange: mockOnChange });
 
-    comp.find("input").invoke("onChange")();
+    comp.find("input").invoke("onChange")({ target: { value: "3" }});
 
     expect(mockOnChange).toHaveBeenCalledTimes(1);
+    expect(mockOnChange).toHaveBeenLastCalledWith({ target: { value: "3" }});
   });
 });

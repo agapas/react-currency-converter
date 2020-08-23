@@ -93,9 +93,11 @@ export class DataController extends React.Component {
       return (<Error message="There is no results to display. Please try again later." />);
     }
 
+    const { base, rates, date } = data;
+
     return (<>
-      <CurrencyForm {...data} />
-      <Source url={url} date={data?.date} />
+      <CurrencyForm base={base} rates={rates} />
+      <Source url={url} date={date} />
     </>);
   }
 }
