@@ -2,6 +2,7 @@ import React from "react";
 import { Error } from "./Error";
 import { LoadingIcon } from "./LoadingIcon";
 import { CurrencyForm } from "./CurrencyForm";
+import { Source } from "./Source";
 
 const mockData = {
   "rates": {
@@ -88,13 +89,13 @@ export class DataController extends React.Component {
       return <LoadingIcon />;
     }
 
-    if (!data?.rates) {
+    if (!data?.base || !data?.rates) {
       return (<Error message="There is no results to display. Please try again later." />);
     }
 
     return (<>
       <CurrencyForm {...data} />
-      <div className="source">{`Rates: ${url.split("/latest")[0]}, ${data.date}`}</div>
+      <Source url={url} date={data?.date} />
     </>);
   }
 }
