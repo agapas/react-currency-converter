@@ -77,7 +77,6 @@ export class CurrencyForm extends React.Component {
     const { value, error } = amount;
     const { base, rates } = this.props;
     
-    // const sortedRates = getSorted(Object.entries(rates));
     const currencyOptions = getCurrencyOptions(base, rates);
 
     return (
@@ -101,22 +100,6 @@ export class CurrencyForm extends React.Component {
 
           <Result value={this.state.value} onChange={undefined} />
         </form>
-
-        {/* just temporary to see entire data */}
-        {/* <div key={base} className="currency">
-          <div className={`currency-flag currency-flag-${base.toLowerCase()}`}></div>
-          <div className="currency-code">{`${base}: 1.0000`}</div>
-        </div>
-        <div>{
-          sortedRates.map((entry) => {
-              const [key, val] = entry;
-              return <div key={key} className="currency">
-                <div className={`currency-flag currency-flag-${key.toLowerCase()}`}></div>
-                <div className="currency-code">{`${key}: ${val}`}</div>
-              </div>
-            })
-          }
-        </div> */}
       </>
     );
   }

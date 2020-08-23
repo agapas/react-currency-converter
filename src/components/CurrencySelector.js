@@ -1,22 +1,8 @@
 import React from "react";
 import Select, { components } from "react-select";
 import { SelectCustomOption } from "./SelectCustomOption";
-const { Option, SingleValue } = components;
 
-// export const CurrencySelector = ({ label, options, value, onChange }) => {
-//   return (
-//     <label>
-//       {`${label}:`}
-//       <select id="currency-select" name="currencies" value={value} onChange={onChange}>
-//         {options.map((option) =>
-//           <option key={option} data-content={`<i className="currency-flag currency-flag-${option.toLowerCase()}"></i>`}>
-//             {option}
-//           </option>
-//         )}
-//       </select>
-//     </label>
-//   );
-// };
+const { Option, SingleValue } = components;
 
 const SelectIconOption = (props) => (
   <Option {...props}>
