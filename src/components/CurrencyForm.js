@@ -4,27 +4,30 @@ import { CurrencySelector } from "./CurrencySelector";
 import { CurrencySwitcher } from "./CurrencySwitcher";
 import { Result } from "./Result";
 
-const getSorted = (arrayToSort) => arrayToSort.sort((a, b) => a[0].localeCompare(b[0]));
+const getSorted = (arrayToSort) =>
+  arrayToSort.sort((a, b) => a[0].localeCompare(b[0]));
 
-const getCurrencyOptions = (base, rates = {}) => {
-  if (!base) return [];
+const isNumeric = (n) => !isNaN(parseFloat(n)) && isFinite(n);
 
+const getCurrencyRate = (currency, base, rates) =>
+  currency === base ? 1 : rates[currency];
+
+export const getCurrencyOptions = (base, rates) => {
   const ratesWithBase = Object.keys(rates).concat(base);
   const sorted = getSorted(ratesWithBase);
   return sorted.map(s => ({ label: s, value: s.toLowerCase() }));
 };
 
-const getCurrencyRate = (currency, base, rates) => currency === base ? 1 : rates[currency];
+export const convertAmount = (base, rates, amount, from, to) => {
+  const { value, error } = amount;
+  if (error || !from || !to) return 0;
 
-const convertAmount = (amount, from, to, base, rates) => {
   const fromRate = getCurrencyRate(from, base, rates);
   const toRate = getCurrencyRate(to, base, rates);
-  return toRate * amount / fromRate;
+  return toRate * value / fromRate;
 };
 
-const isNumeric = (n) => !isNaN(parseFloat(n)) && isFinite(n);
-
-const getAmountError = (value) => {
+export const getAmountError = (value) => {
   return value
     ? isNumeric(value)
       ? value <= 0
@@ -70,7 +73,7 @@ export class CurrencyForm extends React.Component {
     e.preventDefault();
     const { base, rates } = this.props;
     const { amount, from, to } = this.state;
-    const newValue = convertAmount(amount.value, from.label, to.label, base, rates);
+    const newValue = convertAmount(base, rates, amount, from?.label, to?.label);
     this.setState({ value: newValue });
   }
   
@@ -99,7 +102,7 @@ export class CurrencyForm extends React.Component {
         />
         <input className="button" type="submit" value="Submit" />
 
-        <Result value={this.state.value} onChange={undefined} />
+        <Result value={this.state.value || 0} onChange={undefined} />
       </form>
     );
   }

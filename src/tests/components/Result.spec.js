@@ -18,12 +18,8 @@ describe("Result", () => {
 
     const input = comp.find("input");
     expect(input.exists()).toBe(true);
+    expect(input.prop("value")).toBeUndefined();
     expect(input.prop("disabled")).toBe(true);
-  });
-
-  it ("should display 0 if value is undefined", () => {
-    const comp = getComp();
-    expect(comp.find("input").prop("value")).toEqual(0);
   });
 
   it ("should display given value", () => {
