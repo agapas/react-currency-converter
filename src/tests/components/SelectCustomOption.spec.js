@@ -22,7 +22,7 @@ describe("SelectCustomOption", () => {
   
   it("should display given label", () => {
     const comp = getComp({ label: "EUR" });
-    expect(comp.find(".currency").text()).toEqual("EUR");
+    expect(comp.find(".currency-option").text()).toEqual("EUR");
   });
 
 });

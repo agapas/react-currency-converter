@@ -4,13 +4,13 @@ import { SelectCustomOption } from "./SelectCustomOption";
 
 const { Option, SingleValue } = components;
 
-const SelectIconOption = (props) => (
+export const SelectIconOption = (props) => (
   <Option {...props}>
     <SelectCustomOption {...props.data} />
   </Option>
 );
 
-const SelectValueOption = (props) => (
+export const SelectValueOption = (props) => (
   <SingleValue {...props}>
     <SelectCustomOption {...props.data} />
   </SingleValue>
@@ -27,11 +27,11 @@ export class CurrencySelector extends React.Component {
   };
   render() {
     const { selectedOption } = this.state;
-    const { label = "Currency", options = [], value } = this.props;
+    const { label, options = [], value } = this.props;
 
     return (
       <label>
-        <div className="label">{`${label}:`}</div>
+        {label && <div className="label">{`${label}:`}</div>}
         <Select
           className="react-select-container"
           isClearable={true}

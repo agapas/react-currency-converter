@@ -89,7 +89,7 @@ label.has-error {
   margin-bottom: 0;
 }
 
-.currency {
+.currency-option {
   display: flex;
   align-items: center;
 }
