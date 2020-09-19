@@ -10,12 +10,9 @@ import { Amount } from "components/Amount";
 import { CurrencySelector } from "components/CurrencySelector";
 import { CurrencySwitcher } from "components/CurrencySwitcher";
 import { Result } from "components/Result";
+import { mockData } from "../testsUtils";
 
-const base = "EUR";
-const rates = {
-  GBP: 0.9012,
-  USD: 1.1224,
-};
+const { base, rates } = mockData;
 
 describe("CurrencyForm", () => {
   const comp = shallow(<CurrencyForm base={base} rates={rates} />);

@@ -2,6 +2,7 @@ import React from "react";
 import { shallow } from "enzyme";
 import { API_URL } from "App";
 import { Source } from "components/Source";
+import { mockData } from "../testsUtils";
 
 describe("Source", () => {
   const getComp = (date) => shallow(
@@ -18,7 +19,7 @@ describe("Source", () => {
   });
 
   it ("should display the source with given date", () => {
-    const date = "2020-08-23";
+    const { date } = mockData;
     const expected = `Rates: https://api.exchangeratesapi.io, ${date}`;
 
     const comp = getComp(date);
