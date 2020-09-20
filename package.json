@@ -2,6 +2,7 @@
   "name": "react-currency-converter",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://agapas.github.io/react-currency-converter",
   "dependencies": {
     "currency-flags": "^2.1.2",
     "font-awesome": "^4.7.0",
