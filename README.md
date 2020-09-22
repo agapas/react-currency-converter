@@ -1,7 +1,7 @@
 # react-currency-converter
-Simple currency conversion app, which uses exchanged rates API from[exchangeratesapi.io](https://exchangeratesapi.io/).
+Simple currency conversion app, which uses exchanged rates API from [exchangeratesapi.io](https://exchangeratesapi.io/).
 
-[Demo](http://agapas.github.io/react-currency-converter).
+[Demo](http://agapas.github.io/react-currency-converter)
 
 The app is made with React in a Functional Programming like approach. Unit tests are made with Jest and Enzyme.
 
