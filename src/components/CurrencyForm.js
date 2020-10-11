@@ -78,15 +78,15 @@ export class CurrencyForm extends React.Component {
   }
   
   render() {
-    const { amount, from, to } = this.state;
-    const { value, error } = amount;
+    const { amount, from, to, value } = this.state;
+    const { value: amountValue, error } = amount;
     const { base, rates } = this.props;
     
     const currencyOptions = getCurrencyOptions(base, rates);
 
     return (
       <form onSubmit={this.onSubmit}>
-        <Amount error={error} value={value} onChange={this.onChangeAmount} />
+        <Amount error={error} value={amountValue} onChange={this.onChangeAmount} />
         <CurrencySelector
           label="From"
           options={currencyOptions}
@@ -102,7 +102,7 @@ export class CurrencyForm extends React.Component {
         />
         <input className="button" type="submit" value="Submit" />
 
-        <Result value={this.state.value || 0} onChange={undefined} />
+        <Result value={value || 0} onChange={undefined} />
       </form>
     );
   }
