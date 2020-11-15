@@ -15,7 +15,7 @@ const getCurrencyRate = (currency, base, rates) =>
 export const getCurrencyOptions = (base, rates) => {
   const ratesWithBase = Object.keys(rates).concat(base);
   const sorted = getSorted(ratesWithBase);
-  return sorted.map(s => ({ label: s, value: s.toLowerCase() }));
+  return sorted.map((s) => ({ label: s, value: s.toLowerCase() }));
 };
 
 export const convertAmount = (base, rates, amount, from, to) => {
@@ -24,7 +24,7 @@ export const convertAmount = (base, rates, amount, from, to) => {
 
   const fromRate = getCurrencyRate(from, base, rates);
   const toRate = getCurrencyRate(to, base, rates);
-  return toRate * value / fromRate;
+  return (toRate * value) / fromRate;
 };
 
 export const getAmountError = (value) => {
@@ -38,7 +38,7 @@ export const getAmountError = (value) => {
 };
 
 export class CurrencyForm extends React.Component {
-  static displayName = "CurrencyForm";
+  static displayName = "CurrencyForm";
   state = {
     amount: {
       value: "1",
@@ -53,21 +53,21 @@ export class CurrencyForm extends React.Component {
     const error = getAmountError(e.target.value);
     const newAmount = { value: e.target.value, error };
     this.setState({ amount: newAmount });
-  }
+  };
 
   onChangeFrom = (val) => {
     this.setState({ from: val });
-  }
+  };
 
   onChangeTo = (val) => {
     this.setState({ to: val });
-  }
+  };
 
   onSwitch = (e) => {
     e.preventDefault();
     const { from, to } = this.state;
     this.setState({ from: to, to: from });
-  }
+  };
 
   onSubmit = (e) => {
     e.preventDefault();
@@ -75,18 +75,22 @@ export class CurrencyForm extends React.Component {
     const { amount, from, to } = this.state;
     const newValue = convertAmount(base, rates, amount, from?.label, to?.label);
     this.setState({ value: newValue });
-  }
-  
+  };
+
   render() {
     const { amount, from, to, value } = this.state;
     const { value: amountValue, error } = amount;
     const { base, rates } = this.props;
-    
+
     const currencyOptions = getCurrencyOptions(base, rates);
 
     return (
       <form onSubmit={this.onSubmit}>
-        <Amount error={error} value={amountValue} onChange={this.onChangeAmount} />
+        <Amount
+          error={error}
+          value={amountValue}
+          onChange={this.onChangeAmount}
+        />
         <CurrencySelector
           label="From"
           options={currencyOptions}

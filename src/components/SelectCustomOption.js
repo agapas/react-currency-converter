@@ -1,10 +1,11 @@
 import React from "react";
 
-export const SelectCustomOption = (props) => {
+export const SelectCustomOption = (props = {}) => {
+  const { label, value } = props;
   return (
     <div className="currency-option">
-      <i className={`currency-flag currency-flag-${props?.value}`} />
-      {props?.label}
+      {value ? <i className={`currency-flag currency-flag-${value}`} /> : null}
+      {label ?? ""}
     </div>
   );
 };

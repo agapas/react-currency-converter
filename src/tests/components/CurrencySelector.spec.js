@@ -1,11 +1,7 @@
 import React from "react";
-import Select, { components } from "react-select";
+import Select from "react-select";
 import { shallow } from "enzyme";
-import {
-  CurrencySelector,
-  SelectIconOption,
-  SelectValueOption,
-} from "components/CurrencySelector";
+import { CurrencySelector, CustomComponent } from "components/CurrencySelector";
 import { SelectCustomOption } from "components/SelectCustomOption";
 
 describe("CurrencySelector", () => {
@@ -14,54 +10,60 @@ describe("CurrencySelector", () => {
     { label: "OPTION 2", value: "option 2" },
   ];
 
-  const getComp = (props = {}) => shallow(
-    <CurrencySelector
-      label={props.label}
-      options={props.options}
-      value={props.value}
-      onChange={props.onChange}
-    />
-  );
+  const getComp = (props = {}) =>
+    shallow(
+      <CurrencySelector
+        label={props.label}
+        options={props.options}
+        value={props.value}
+        onChange={props.onChange}
+      />
+    );
 
-  it ("should not explode without given props", () => {
+  it("should not explode without given props", () => {
     const comp = getComp();
-    expect(comp.exists()).toBe(true);
 
-    const label = comp.find(".label");
-    expect(label.exists()).toBe(false);
-    
+    expect(comp.exists()).toBe(true);
+    expect(comp.find(".label").exists()).toBe(false);
+
     const select = comp.find(Select);
     expect(select.exists()).toBe(true);
     expect(select.prop("options")).toEqual([]);
-    expect(select.prop("value")).toBeNull();
+    expect(select.prop("value")).toBeUndefined();
     expect(select.prop("onChange")).toBeDefined();
   });
 
-  it ("should display given label", () => {
-    const comp = getComp({ label: "Some Label"});
+  it("should display given label", () => {
+    const comp = getComp({ label: "Some Label" });
 
     const label = comp.find(".label");
     expect(label.exists()).toBe(true);
     expect(label.text()).toEqual("Some Label:");
   });
 
-  it ("should pass given options and value into Select component", () => {
-    const comp = getComp({ options, value: options[0] });
+  it("should pass given options into Select component", () => {
+    const comp = getComp({ options });
 
     const select = comp.find(Select);
     expect(select.prop("options")).toEqual(options);
+  });
+
+  it("should pass given value into Select component", () => {
+    const comp = getComp({ value: options[0] });
+
+    const select = comp.find(Select);
     expect(select.prop("value")).toEqual(options[0]);
   });
 
-  it ("should set custom components prop in Select", () => {
-    const comp = getComp();
-    const select = comp.find(Select);
-    const components = select.prop("components");
-    expect(components.Option).toEqual(SelectIconOption);
-    expect(components.SingleValue).toEqual(SelectValueOption);
+  it("should set custom components prop in Select", () => {
+    const comp = getComp({ options, value: options[0] });
+
+    const componentsProp = comp.find(Select).prop("components");
+    expect(componentsProp.Option).toBeDefined();
+    expect(componentsProp.SingleValue).toBeDefined();
   });
 
-  it ("should set custom theme prop in Select", () => {
+  it("should use custom styles in theme prop of Select component", () => {
     const expectedTheme = {
       borderRadius: 2,
       colors: {
@@ -76,10 +78,16 @@ describe("CurrencySelector", () => {
     };
     const comp = getComp();
     const select = comp.find(Select);
-    expect(select.prop("theme")({})).toEqual(expectedTheme);
+    expect(
+      select.prop("theme")({
+        colors: {
+          primary50: "red",
+        },
+      })
+    ).toMatchObject(expectedTheme);
   });
 
-  it ("should use given onChange", () => {
+  it("should use given onChange", () => {
     const mockOnChange = jest.fn();
     const comp = getComp({ onChange: mockOnChange });
 
@@ -90,36 +98,29 @@ describe("CurrencySelector", () => {
   });
 });
 
-describe ("SelectIconOption", () => {
-  const { Option } = components;
-  const props = { data: { label: "OPTION", value: "opt" }};
+describe("CustomComponent", () => {
+  const dummyComp = (dummyProps) => (
+    <div className="dummy" {...dummyProps}></div>
+  );
+  const props = {
+    data: { label: "OPTION", value: "opt" },
+    otherProp: "lalala",
+  };
 
-  it ("should render Option with given props", () => {
-    const comp = shallow(<SelectIconOption props={props} />);
+  it("should render given component as a wrapper with given props", () => {
+    const comp = shallow(CustomComponent(dummyComp)(props));
+
     expect(comp.exists()).toBe(true);
-
-    const option = comp.find(Option);
-    expect(option.type()).toEqual(Option);
-    expect(option.props().props).toEqual({ ...props });
-
-    const selectCustomOption = option.find("SelectCustomOption");
-    expect(selectCustomOption.type()).toEqual(SelectCustomOption);
+    expect(comp.prop("className")).toEqual("dummy");
+    expect(comp.prop("data")).toMatchObject(props.data);
+    expect(comp.prop("otherProp")).toEqual(props.otherProp);
   });
-});
 
-describe ("SelectValueOption", () => {
-  const { SingleValue } = components;
-  const props = { data: { label: "OPTION", value: "opt" }};
+  it("should render SelectCustomOption as a child with given props data", () => {
+    const comp = shallow(CustomComponent(dummyComp)(props));
 
-  it ("should render SingleValue with given props", () => {
-    const comp = shallow(<SelectValueOption props={props} />);
-    expect(comp.exists()).toBe(true);
-
-    const singleValue = comp.find(SingleValue);
-    expect(singleValue.type()).toEqual(SingleValue);
-    expect(singleValue.props().props).toEqual({ ...props });
-
-    const selectCustomOption = singleValue.find("SelectCustomOption");
-    expect(selectCustomOption.type()).toEqual(SelectCustomOption);
+    const selectCustomOption = comp.find(SelectCustomOption);
+    expect(selectCustomOption.exists()).toBe(true);
+    expect(selectCustomOption.props()).toMatchObject({ ...props.data });
   });
 });
