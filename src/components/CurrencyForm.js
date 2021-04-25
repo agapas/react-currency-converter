@@ -12,10 +12,13 @@ const isNumeric = (n) => !isNaN(parseFloat(n)) && isFinite(n);
 const getCurrencyRate = (currency, base, rates) =>
   currency === base ? 1 : rates[currency];
 
-export const getCurrencyOptions = (base, rates) => {
-  const ratesWithBase = Object.keys(rates).concat(base);
-  const sorted = getSorted(ratesWithBase);
-  return sorted.map((s) => ({ label: s, value: s.toLowerCase() }));
+export const getCurrencyOptions = (rates, selectedRate) => {
+  const ratesKeys = Object.keys(rates);
+  const ratesWitoutSelected = selectedRate
+    ? ratesKeys.filter(rk => rk !== selectedRate.label)
+    : ratesKeys;
+  const sortedRates = getSorted(ratesWitoutSelected);
+  return sortedRates.map((s) => ({ label: s, value: s.toLowerCase() }));
 };
 
 export const convertAmount = (base, rates, amount, from, to) => {
@@ -80,9 +83,7 @@ export class CurrencyForm extends React.Component {
   render() {
     const { amount, from, to, value } = this.state;
     const { value: amountValue, error } = amount;
-    const { base, rates } = this.props;
-
-    const currencyOptions = getCurrencyOptions(base, rates);
+    const { rates } = this.props;
 
     return (
       <form onSubmit={this.onSubmit}>
@@ -93,14 +94,14 @@ export class CurrencyForm extends React.Component {
         />
         <CurrencySelector
           label="From"
-          options={currencyOptions}
+          options={getCurrencyOptions(rates, from)}
           value={from}
           onChange={this.onChangeFrom}
         />
         <CurrencySwitcher value={{ from, to }} onChange={this.onSwitch} />
         <CurrencySelector
           label="To"
-          options={currencyOptions}
+          options={getCurrencyOptions(rates, to)}
           value={to}
           onChange={this.onChangeTo}
         />

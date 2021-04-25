@@ -15,13 +15,15 @@ html {
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   height: 100%;
   background-color: var(--background);
   padding: 20px;
 }
 
-#root, .app {
+#root,
+.app {
   height: 100%;
 }
 
@@ -46,14 +48,16 @@ html, body {
   color: var(--primary);
 }
 
-.loading-icon, .sr-only {
-	position: absolute;
-	top: 45%;
-	left: 50%;
+.loading-icon,
+.sr-only {
+  position: absolute;
+  top: 45%;
+  left: 50%;
 }
 
-.error, .error-hint {
-  font-weight:600;
+.error,
+.error-hint {
+  font-weight: 600;
   color: var(--error);
 }
 
@@ -71,7 +75,9 @@ form {
   padding: 30px;
   min-width: 240px;
   max-width: 350px;
-  max-height: calc(100% - 90px - 50px); /* minus height of app-header and source */
+  max-height: calc(
+    100% - 90px - 50px
+  ); /* minus height of app-header and source */
   overflow: auto;
   background-color: var(--primary);
 }
@@ -167,7 +173,7 @@ input[type="submit"] {
 }
 
 .button:hover {
-  background-color: #FFC107;
+  background-color: #ffc107;
 }
 
 .button:disabled {
@@ -191,7 +197,8 @@ label.has-error input[type="text"] {
 }
 
 @media only screen and (max-width: 600px) {
-  html, body {
+  html,
+  body {
     padding: 10px;
   }
   form {
@@ -212,7 +219,8 @@ label.has-error input[type="text"] {
 }
 
 @media only screen and (max-width: 320px) {
-  html, body {
+  html,
+  body {
     padding: 10px;
   }
   .app-header {
