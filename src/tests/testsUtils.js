@@ -1,8 +1,11 @@
 export const testUrl = "https://test/page/url";
 export const mockData = {
+  success: true,
+  timestamp: 1619432343,
   base: "EUR",
-  date: "2020-07-03",
+  date: "2021-04-26",
   rates: {
+    EUR: 1,
     GBP: 0.9012,
     USD: 1.1224,
   }

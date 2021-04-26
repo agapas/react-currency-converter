@@ -13,6 +13,11 @@ import { Result } from "components/Result";
 import { mockData } from "../testsUtils";
 
 const { base, rates } = mockData;
+const currencyOptions = [
+  { label: "EUR", value: "eur" },
+  { label: "GBP", value: "gbp" },
+  { label: "USD", value: "usd" },
+];
 
 describe("CurrencyForm", () => {
   const comp = shallow(<CurrencyForm base={base} rates={rates} />);
@@ -29,23 +34,17 @@ describe("CurrencyForm", () => {
   });
 
   it("should render 2 currency selectors", () => {
-    const expectedOptions = [
-      { label: "EUR", value: "eur" },
-      { label: "GBP", value: "gbp" },
-      { label: "USD", value: "usd" },
-    ];
-
     const currencySelectors = comp.find(CurrencySelector);
     expect(currencySelectors.length).toEqual(2);
 
     const firstSelector = currencySelectors.first();
     expect(firstSelector.prop("label")).toEqual("From");
-    expect(firstSelector.prop("options")).toEqual(expectedOptions);
+    expect(firstSelector.prop("options")).toEqual(currencyOptions);
     expect(firstSelector.prop("value")).toBeUndefined();
 
     const lastSelector = currencySelectors.last();
     expect(lastSelector.prop("label")).toEqual("To");
-    expect(lastSelector.prop("options")).toEqual(expectedOptions);
+    expect(lastSelector.prop("options")).toEqual(currencyOptions);
     expect(lastSelector.prop("value")).toBeUndefined();
   });
 
@@ -113,9 +112,14 @@ describe("CurrencyForm", () => {
 
 describe("CurrencyForm functions", () => {
   describe("getCurrencyOptions", () => {
-    it("should return array with currency options", () => {
-      expect(getCurrencyOptions(base, rates)).toEqual([
-        { label: "EUR", value: "eur" },
+    it("should return currency options when selectedRate has falsy value", () => {
+      expect(getCurrencyOptions(rates, undefined)).toEqual(currencyOptions);
+      expect(getCurrencyOptions(rates, {})).toEqual(currencyOptions);
+    });
+
+    it("should return currency options without given selected rate", () => {
+      const selectedRate = { label: "EUR", value: "eur" };
+      expect(getCurrencyOptions(rates, selectedRate)).toEqual([
         { label: "GBP", value: "gbp" },
         { label: "USD", value: "usd" },
       ]);

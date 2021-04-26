@@ -17,7 +17,7 @@ import { DataController } from "components/DataController";
 */
 
 const API_ACCESS_KEY = "YOUR_API_ACCESS_KEY";
-export const API_URL = `http://api.exchangeratesapi.io/v1/latest?access_key=${API_ACCESS_KEY}`;
+export const API_URL = `https://api.exchangeratesapi.io/v1/latest?access_key=${API_ACCESS_KEY}`;
 
 function App() {
   return (
