@@ -6,7 +6,7 @@ Simple currency conversion app, which uses exchanged rates API from [exchangerat
 
 ### A note:
 
-For demo website purpose I used mocked data in this repo as since the 1st April 2021 the [exchangeratesapi.io](https://exchangeratesapi.io/) requires an API access key to use their service. You can sign up for a free API key there or get the paid one (just keep in mind that the free plan uses the `http` protocol).
+For the demo website purpose I used mocked data in this repo as since the 1st April 2021, the [exchangeratesapi.io](https://exchangeratesapi.io/) requires an API access key to use the service. You can sign up for a free API key or get the paid one on their website (just keep in mind that the free plan uses the `http` protocol).
 
 When you will have the API access key:
 
