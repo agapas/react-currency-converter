@@ -12,7 +12,7 @@ const isNumeric = (n) => !isNaN(parseFloat(n)) && isFinite(n);
 const getCurrencyRate = (currency, base, rates) =>
   currency === base ? 1 : rates[currency];
 
-export const getCurrencyOptions = (rates, selectedRate) => {
+export const getCurrencyOptions = (rates = {}, selectedRate) => {
   const ratesKeys = Object.keys(rates);
   const ratesWitoutSelected = selectedRate
     ? ratesKeys.filter(rk => rk !== selectedRate.label)
@@ -49,65 +49,64 @@ export class CurrencyForm extends React.Component {
     },
     from: undefined,
     to: undefined,
-    value: undefined,
+    resultValue: undefined,
   };
 
-  onChangeAmount = (e) => {
-    const error = getAmountError(e.target.value);
-    const newAmount = { value: e.target.value, error };
-    this.setState({ amount: newAmount });
+  handleAmountChange = (event) => {
+    const { value } = event.target;
+    const error = getAmountError(value);
+    this.setState({ amount: { value, error } });
   };
 
-  onChangeFrom = (val) => {
-    this.setState({ from: val });
+  handleFromChange = (from) => {
+    this.setState({ from });
   };
 
-  onChangeTo = (val) => {
-    this.setState({ to: val });
+  handleToChange = (to) => {
+    this.setState({ to });
   };
 
-  onSwitch = (e) => {
-    e.preventDefault();
+  handleSwitch = () => {
     const { from, to } = this.state;
     this.setState({ from: to, to: from });
   };
 
-  onSubmit = (e) => {
-    e.preventDefault();
+  handleSubmit = (event) => {
+    event.preventDefault();
     const { base, rates } = this.props;
     const { amount, from, to } = this.state;
     const newValue = convertAmount(base, rates, amount, from?.label, to?.label);
-    this.setState({ value: newValue });
+    this.setState({ resultValue: newValue });
   };
 
   render() {
-    const { amount, from, to, value } = this.state;
+    const { amount, from, to, resultValue } = this.state;
     const { value: amountValue, error } = amount;
     const { rates } = this.props;
 
     return (
-      <form onSubmit={this.onSubmit}>
+      <form onSubmit={this.handleSubmit}>
         <Amount
           error={error}
           value={amountValue}
-          onChange={this.onChangeAmount}
+          onChange={this.handleAmountChange}
         />
         <CurrencySelector
           label="From"
           options={getCurrencyOptions(rates, from)}
           value={from}
-          onChange={this.onChangeFrom}
+          onChange={this.handleFromChange}
         />
-        <CurrencySwitcher value={{ from, to }} onChange={this.onSwitch} />
+        <CurrencySwitcher disabled={!from || !to} onSwitch={this.handleSwitch} />
         <CurrencySelector
           label="To"
           options={getCurrencyOptions(rates, to)}
           value={to}
-          onChange={this.onChangeTo}
+          onChange={this.handleToChange}
         />
         <input className="button" type="submit" value="Submit" />
 
-        <Result value={value || 0} onChange={undefined} />
+        <Result value={resultValue} />
       </form>
     );
   }
