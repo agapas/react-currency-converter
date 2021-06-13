@@ -3,44 +3,42 @@ import { shallow } from "enzyme";
 import { CurrencySwitcher } from "components/CurrencySwitcher";
 
 describe ("CurrencySwitcher", () => {
-  const testValue = {
-    from: "from",
-    to: "to",
+  const getComp = (props = {}) => {
+    const onSwitchMock = jest.fn();
+    const comp = shallow(
+      <CurrencySwitcher
+        disabled={props.disabled}
+        onSwitch={onSwitchMock}
+      />
+    );
+      return { comp, onSwitchMock };
   };
 
-  const getComp = (props = {}) => shallow(
-    <CurrencySwitcher
-      value={props.value}
-      onChange={props.onChange}
-    />
-  );
-
   it ("should render successfully with minimum settings", () => {
-    expect(getComp().exists()).toBe(true);
+    const { comp } = getComp();
+    expect(comp.exists()).toBe(true);
   });
 
-  it ("should render disabled button when value is undefined", () => {
-    expect(getComp().prop("disabled")).toBe(true);
+  it ("should render enabled button when disabled is undefined", () => {
+    const { comp } = getComp();
+    expect(comp.prop("disabled")).toBe(false);
   });
 
-  it ("should render disabled button for value without 'from'", () => {
-    expect(getComp({ value: { ...testValue, from: undefined }}).prop("disabled")).toBe(true);
+  it ("should render enabled button when disabled is false", () => {
+    const { comp } = getComp({ disabled: false });
+    expect(comp.prop("disabled")).toBe(false);
   });
 
-  it ("should render disabled button for value without 'to'", () => {
-    expect(getComp({ value: { ...testValue, to: undefined }}).prop("disabled")).toBe(true);
+  it ("should render disabled button when disabled is true", () => {
+    const { comp } = getComp({ disabled: true });
+    expect(comp.prop("disabled")).toBe(true);
   });
 
-  it ("should render enabled button for value with 'from' and 'to'", () => {
-    expect(getComp({ value: testValue }).prop("disabled")).toBe(false);
-  });
-
-  it ("should use given onChange", () => {
-    const mockOnChange = jest.fn();
-    const comp = getComp({ value: testValue, onChange: mockOnChange });
+  it ("should use given onSwitch", () => {
+    const { comp, onSwitchMock } = getComp();
 
     comp.simulate("click");
 
-    expect(mockOnChange).toHaveBeenCalledTimes(1);
+    expect(onSwitchMock).toHaveBeenCalledTimes(1);
   });
 });

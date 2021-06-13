@@ -20,93 +20,140 @@ const currencyOptions = [
 ];
 
 describe("CurrencyForm", () => {
-  const comp = shallow(<CurrencyForm base={base} rates={rates} />);
+  const getComp = (noData) => shallow(
+    <CurrencyForm
+      base={noData ? undefined : base}
+      rates={noData ? undefined : rates} />
+  );
 
-  it("should render successfully with default settings", () => {
+  it("should not explode when no given props", () => {
+    const comp = getComp(true);
     expect(comp.exists()).toBe(true);
     expect(comp.type()).toBe("form");
   });
 
-  it("should render Amount component with default settings", () => {
+  it("should render currency selectors without options when no given props", () => {
+    const comp = getComp(true);
+    const currencySelectors = comp.find(CurrencySelector);
+    expect(currencySelectors.length).toEqual(2);
+    currencySelectors.forEach(selector => {
+      expect(selector.prop("options")).toEqual([]);
+    });
+  });
+
+  it("should render successfully when base and rates are defined", () => {
+    const comp = getComp();
+    expect(comp.exists()).toBe(true);
+    expect(comp.type()).toBe("form");
+  });
+
+  it("should render Amount component by default", () => {
+    const comp = getComp();
     const amount = comp.find(Amount);
+    expect(amount.exists()).toBe(true);
     expect(amount.prop("error")).toBeUndefined();
     expect(amount.prop("value")).toEqual("1");
   });
 
-  it("should render 2 currency selectors", () => {
+  it("should render 2 currency selectors when by default", () => {
+    const comp = getComp();
+
     const currencySelectors = comp.find(CurrencySelector);
     expect(currencySelectors.length).toEqual(2);
 
-    const firstSelector = currencySelectors.first();
-    expect(firstSelector.prop("label")).toEqual("From");
-    expect(firstSelector.prop("options")).toEqual(currencyOptions);
-    expect(firstSelector.prop("value")).toBeUndefined();
+    const fromSelector = currencySelectors.filter({ label: "From" });
+    expect(fromSelector.exists()).toBe(true);
+    expect(fromSelector.prop("options")).toEqual(currencyOptions);
+    expect(fromSelector.prop("value")).toBeUndefined();
 
-    const lastSelector = currencySelectors.last();
-    expect(lastSelector.prop("label")).toEqual("To");
-    expect(lastSelector.prop("options")).toEqual(currencyOptions);
-    expect(lastSelector.prop("value")).toBeUndefined();
+    const toSelector = currencySelectors.filter({ label: "To" });
+    expect(toSelector.exists()).toBe(true);
+    expect(toSelector.prop("options")).toEqual(currencyOptions);
+    expect(toSelector.prop("value")).toBeUndefined();
   });
 
-  it("should render CurrencySwitcher component with default settings", () => {
-    expect(comp.find(CurrencySwitcher).prop("value")).toEqual({});
+  it("should render CurrencySwitcher component by default", () => {
+    const comp = getComp();
+    const currencySwitcher = comp.find(CurrencySwitcher);
+    expect(currencySwitcher.exists()).toBe(true);
+    expect(currencySwitcher.prop("disabled")).toBe(true);
   });
 
-  it("should render submit button", () => {
+  it("should render submit button by default", () => {
+    const comp = getComp();
     expect(comp.find("input[type='submit']").exists()).toBe(true);
   });
 
-  it("should render Result component with default settings", () => {
-    expect(comp.find(Result).prop("value")).toEqual(0);
+  it("should render Result component by default", () => {
+    const comp = getComp();
+    expect(comp.find(Result).prop("value")).toBeUndefined();
   });
 
   it("should deal with amount change", () => {
+    const comp = getComp();
     const amount = comp.find(Amount);
     amount.invoke("onChange")({ target: { value: 100 } });
     expect(comp.find(Amount).prop("value")).toEqual(100);
   });
 
   it("should deal with currency 'from' change", () => {
-    const fromCurrencySelector = comp.find(CurrencySelector).first();
+    const comp = getComp();
+    const fromSelector = comp.find(CurrencySelector).filter({ label: "From" });
 
-    const newValue = { label: "GBP", value: "gbp" };
-    fromCurrencySelector.invoke("onChange")(newValue);
+    const from = { label: "GBP", value: "gbp" };
+    fromSelector.invoke("onChange")(from);
 
-    expect(comp.find(CurrencySelector).first().prop("value")).toEqual(newValue);
+    expect(comp.find(CurrencySelector).filter({ label: "From" }).prop("value"))
+      .toEqual(from);
   });
 
   it("should deal with currency 'to' change", () => {
-    const toCurrencySelector = comp.find(CurrencySelector).last();
+    const comp = getComp();
+    const toSelector = comp.find(CurrencySelector).filter({ label: "To" });
 
-    const newValue = { label: "USD", value: "usd" };
-    toCurrencySelector.invoke("onChange")(newValue);
+    const to = { label: "USD", value: "usd" };
+    toSelector.invoke("onChange")(to);
 
-    expect(comp.find(CurrencySelector).last().prop("value")).toEqual(newValue);
+    expect(comp.find(CurrencySelector).last().prop("value")).toEqual(to);
   });
 
   it("should deal with currency switch", () => {
+    const comp = getComp();
+
+    const from = { label: "EUR", value: "eur" };
+    const to = { label: "USD", value: "usd" };
+    comp.setState({ from, to });
+
+    const fromSelector = comp.find(CurrencySelector).filter({ label: "From" });
+    expect(fromSelector.prop("value")).toEqual(from);
+
+    const toSelector = comp.find(CurrencySelector).filter({ label: "To" });
+    expect(toSelector.prop("value")).toEqual(to);
+
     const currencySwitcher = comp.find(CurrencySwitcher);
-    expect(comp.find(CurrencySwitcher).prop("value")).toEqual({
-      from: { label: "GBP", value: "gbp" },
-      to: { label: "USD", value: "usd" },
-    });
+    currencySwitcher.invoke("onSwitch")();
 
-    currencySwitcher.invoke("onChange")({ preventDefault: () => true });
+    expect(comp.find(CurrencySelector).filter({ label: "From" }).prop("value"))
+      .toEqual(to);
 
-    expect(comp.find(CurrencySwitcher).prop("value")).toEqual({
-      from: { label: "USD", value: "usd" },
-      to: { label: "GBP", value: "gbp" },
-    });
+    expect(comp.find(CurrencySelector).filter({ label: "To" }).prop("value"))
+      .toEqual(from);
   });
 
   it("should submit currency form value", () => {
-    const fromRate = rates["USD"];
-    const toRate = rates["GBP"];
-    const expectedValue = (100 * toRate) / fromRate;
+    const comp = getComp();
+
+    const from = { label: "EUR", value: "eur" };
+    const to = { label: "USD", value: "usd" };
+    comp.setState({ from, to, amount: { value: "100" } });
 
     comp.find("form").invoke("onSubmit")({ preventDefault: () => true });
 
-    expect(comp.find(Result).prop("value")).toEqual(expectedValue);
+    const fromRate = rates["EUR"];
+    const toRate = rates["USD"];
+    const expectedResultValue = (100 * toRate) / fromRate;
+
+    expect(comp.find(Result).prop("value")).toEqual(expectedResultValue);
   });
 });
 
