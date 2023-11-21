@@ -10,7 +10,8 @@ For the demo website purpose I used mocked data in this repo as since the 1st Ap
 
 When you will have the API access key:
 
-- add it as a value to `API_ACCESS_KEY` variable in the `src/App.js` file
+- add it to the `.env` file (remember to include the `.env` in `.gitignore`) or alternatively set the environment variable on deployment platform
+- read and use it's value as `API_ACCESS_KEY` variable in the `src/App.js` file
 - in `src/components/DataContorller.js`:
   - remove `mockData` variable,
   - in `componentDidMount` method:
